@@ -22,8 +22,8 @@ private const val CONNECT_TIMEOUT = 15L
 private const val WRITE_TIMEOUT = 15L
 private const val READ_TIMEOUT = 15L
 
-private const val BASE_URL = "https://api.themoviedb.org/3/discover/movie"
-private const val API_KEY ="api-key"
+private const val BASE_URL = "https://api.themoviedb.org/3/"
+private const val API_KEY ="api_key"
 
 val networkModule = module {
     single { Cache(androidApplication().cacheDir, 10L * 1024 * 1024) }
