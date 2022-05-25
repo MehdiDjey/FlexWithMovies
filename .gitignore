@@ -1,5 +1,6 @@
 # Java class files
 *.class
+# *.cpp  uncoment this line to hide stored api key
 
 # generated files
 bin/
@@ -35,6 +36,8 @@ local.properties
 .idea/vcs.xml
 .idea/workspace.xml
 /out/
+
+.cxx
 
 # OS temparory files
 .DS_Store
