@@ -1,11 +1,10 @@
 package com.druide.flexwithmovies.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.druide.flexwithmovies.databinding.ActivityMainBinding
 import com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsViewModel
 import com.druide.flexwithmovies.ui.fragment.movies.MoviesViewModel
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         moviesViewModel.getMovieAtPage(1)
 
-        details.getMovieDetailWithId(526896)
+        //details.getMovieDetailWithId(526896)
 
     }
 }

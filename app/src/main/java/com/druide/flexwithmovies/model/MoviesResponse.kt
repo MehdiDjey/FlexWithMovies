@@ -45,9 +45,9 @@ data class Results(
 
     @SerialName("popularity") val popularity: Double,
 
-    @SerialName("poster_path") val poster_path: String?,
+    @SerialName("poster_path") val posterPath: String?,
 
-    @SerialName("release_date") val release_date: String,
+    @SerialName("release_date") val releaseDate: String,
 
     @SerialName("title") val title: String,
 
@@ -60,5 +60,13 @@ data class Results(
 ) : Parcelable {
     override fun toString(): String {
         return Json.encodeToString(this)
+    }
+
+    fun formattedPosterPath(): String {
+        return "https://image.tmdb.org/t/p/original/$posterPath"
+    }
+
+    fun formattedBackDropPath(): String {
+        return "https://image.tmdb.org/t/p/original/$backdropPath"
     }
 }
