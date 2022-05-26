@@ -1,16 +1,34 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FlexWithMovies" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Theme.FlexWithMovies" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!--Color-->
+        <item name="colorPrimary">@color/blue_800</item>
+        <item name="colorPrimaryVariant">@color/blue_800</item>
+        <item name="colorSecondary">@color/yellow_500</item>
+        <item name="colorSecondaryVariant">@color/yellow_600</item>
+
+        <item name="android:colorBackground">@color/blue_50</item>
+        <item name="colorSurface">@color/white_50</item>
+
+        <item name="colorError">@color/red_400</item>
+
+        <item name="colorOnPrimary">@color/white_50</item>
+        <item name="colorOnSecondary">@color/black_900</item>
+        <item name="colorOnBackground">@color/black_900</item>
+        <item name="colorOnSurface">@color/black_900</item>
+        <item name="colorOnError">@color/white_50</item>
+
+        <item name="scrimBackground">@color/white_50_alpha_060</item>
+        <item name="android:statusBarColor">@color/blue_50_alpha_060</item>
+        <item name="android:navigationBarColor">@color/nav_bar</item>
     </style>
+
+    <style name="Theme.FlexWithMovies.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.FlexWithMovies.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.FlexWithMovies.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

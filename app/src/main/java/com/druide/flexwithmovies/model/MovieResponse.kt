@@ -16,7 +16,7 @@ data class Movie(
 
     @SerialName("backdrop_path") val backdropPath: String?,
 
-    @SerialName("belongs_to_collection") val belongsToCollection: String?,
+    @SerialName("belongs_to_collection") val belongsToCollection: BelongsToCollection?,
 
     @SerialName("budget") val budget: Int,
 
@@ -42,7 +42,7 @@ data class Movie(
 
     @SerialName("production_countries") val productionCountries: List<ProductionCountries>,
 
-    @SerialName("release_date") val releaseDate: String,
+    @SerialName("release_date") val releaseDate: String ="",
 
     @SerialName("revenue") val revenue: Int,
 
@@ -126,6 +126,20 @@ data class SpokenLanguages(
 
     @SerialName("name") val name: String
 
+) : Parcelable {
+    override fun toString(): String {
+        return Json.encodeToString(this)
+    }
+}
+
+
+@Parcelize
+@Serializable
+data class BelongsToCollection (
+    @SerialName("id") val id : Int,
+    @SerialName("name") val name : String,
+    @SerialName("poster_path") val poster_path : String,
+    @SerialName("backdrop_path") val backdrop_path : String
 ) : Parcelable {
     override fun toString(): String {
         return Json.encodeToString(this)

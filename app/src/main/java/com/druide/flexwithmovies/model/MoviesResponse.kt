@@ -47,7 +47,7 @@ data class Results(
 
     @SerialName("poster_path") val posterPath: String?,
 
-    @SerialName("release_date") val releaseDate: String,
+    @SerialName("release_date") val releaseDate: String ="Unknown release date",
 
     @SerialName("title") val title: String,
 
@@ -62,11 +62,4 @@ data class Results(
         return Json.encodeToString(this)
     }
 
-    fun formattedPosterPath(): String {
-        return "https://image.tmdb.org/t/p/original/$posterPath"
-    }
-
-    fun formattedBackDropPath(): String {
-        return "https://image.tmdb.org/t/p/original/$backdropPath"
-    }
 }

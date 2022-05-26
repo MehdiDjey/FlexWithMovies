@@ -2,6 +2,7 @@ package com.druide.flexwithmovies.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.druide.flexwithmovies.databinding.ActivityMainBinding
 import com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsViewModel
 import com.druide.flexwithmovies.ui.fragment.movies.MoviesViewModel
@@ -13,19 +14,17 @@ class MainActivity : AppCompatActivity() {
     private val details: MovieDetailsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         biding = ActivityMainBinding.inflate(layoutInflater)
         biding.apply {
             setContentView(root)
             getMovies()
         }
+
     }
 
     private fun getMovies() {
-
         moviesViewModel.getMovieAtPage(1)
-
-        //details.getMovieDetailWithId(526896)
-
     }
 }

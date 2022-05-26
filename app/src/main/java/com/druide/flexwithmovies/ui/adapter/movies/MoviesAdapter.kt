@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Precision
+import coil.transform.RoundedCornersTransformation
 import com.druide.flexwithmovies.R
 import com.druide.flexwithmovies.databinding.ItemRowMovieBinding
 import com.druide.flexwithmovies.model.Results
 import com.druide.flexwithmovies.utils.AutoUpdatableAdapter
 import com.druide.flexwithmovies.utils.TAG
+import com.druide.flexwithmovies.utils.formattedPosterPath
 import kotlin.math.round
 import kotlin.properties.Delegates
 
@@ -61,8 +63,9 @@ class MoviesAdapter (private val interaction: Interaction) :
            row.apply {
                tvMovieTitleRow.text =  movie.title
                tvMovieReleaseDateRow.text = movie.releaseDate
-               ivMovieRow.load(movie.formattedPosterPath()) {
-                   crossfade(750).size(500)
+               ivMovieRow.load(movie.posterPath?.formattedPosterPath()) {
+                   size(500)
+                   crossfade(true)
                    precision(Precision.EXACT)
                    placeholder(R.drawable.ic_the_movie_database)
                    error(R.drawable.ic_the_movie_database)

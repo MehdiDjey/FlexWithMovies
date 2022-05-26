@@ -8,3 +8,12 @@ val Any.TAG: String
         val tag = javaClass.simpleName
         return if (tag.length <= 23) tag else tag.substring(0, 23)
     }
+
+
+fun String.formattedPosterPath(): String {
+    return "https://image.tmdb.org/t/p/original/$this"
+}
+
+fun String.formattedBackDropPath(): String {
+    return "https://image.tmdb.org/t/p/original/$this"
+}

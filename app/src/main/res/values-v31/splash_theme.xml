@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white_50</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_the_movie_database</item>
+        <item name="windowSplashScreenAnimationDuration">3000</item>
+        <item name="postSplashScreenTheme">@style/Theme.FlexWithMovies</item>
+
+        <item name="android:statusBarColor">@color/white_50</item>
+        <item name="android:navigationBarColor">@color/white_50</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowSplashScreenBrandingImage"></item>
+    </style>
+</resources>

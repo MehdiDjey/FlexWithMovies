@@ -7,6 +7,7 @@
     tools:context=".ui.fragment.movies.MoviesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:text="Nothing to show or something wrong !!!"
+        tools:text="Nothing to show or something wrong !!!"
         android:layout_height="wrap_content" />
 
 </FrameLayout>

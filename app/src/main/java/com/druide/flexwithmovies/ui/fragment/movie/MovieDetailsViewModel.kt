@@ -9,7 +9,13 @@ import com.druide.flexwithmovies.`interface`.IOnMovie
 import com.druide.flexwithmovies.model.Movie
 import com.druide.flexwithmovies.model.Movies
 import com.druide.flexwithmovies.repository.MovieRepository
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel (private val movieRepository: MovieRepository) : ViewModel(), IOnMovie {
@@ -21,8 +27,15 @@ class MovieDetailsViewModel (private val movieRepository: MovieRepository) : Vie
             val response  = movieRepository.getMovie(idMovie)
 
             response.onSuccess {
-                Log.d("TAG", "getMovieDetailWithId: "+data)
                 _movieDetails.value = data
+            }
+
+            response.onError {
+                Log.d("TAG", "getMovieDetailWithId: Err "+message())
+            }
+
+            response.onException {
+                Log.d("TAG", "getMovieDetailWithId: Ex "+message())
             }
         }
     }
