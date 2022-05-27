@@ -47,7 +47,7 @@ data class Results(
 
     @SerialName("poster_path") val posterPath: String?,
 
-    @SerialName("release_date") val releaseDate: String ="Unknown release date",
+    @SerialName("release_date") val releaseDate: String = "Unknown release date",
 
     @SerialName("title") val title: String,
 

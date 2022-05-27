@@ -7,35 +7,38 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.druide.flexwithmovies.`interface`.IOnMovie
 import com.druide.flexwithmovies.model.Movie
-import com.druide.flexwithmovies.model.Movies
 import com.druide.flexwithmovies.repository.MovieRepository
+import com.druide.flexwithmovies.utils.TAG
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class MovieDetailsViewModel (private val movieRepository: MovieRepository) : ViewModel(), IOnMovie {
+class MovieDetailsViewModel(private val movieRepository: MovieRepository) : ViewModel(), IOnMovie {
     private var _movieDetails: MutableLiveData<Movie?> = MutableLiveData()
     val movieDetails: LiveData<Movie?> = _movieDetails
 
-    override fun getMovieDetailWithId(idMovie: Int) {
-        viewModelScope.launch {
-            val response  = movieRepository.getMovie(idMovie)
+    private var _error: MutableLiveData<String> = MutableLiveData()
+    val error: LiveData<String> = _error
 
+    override fun getMovieDetailWithId(idMovie: Int) {
+        Timber.tag(TAG).d("getMovieDetailWithId() called with: idMovie = $idMovie")
+        viewModelScope.launch {
+            val response = movieRepository.getMovie(idMovie)
+            Timber.tag(TAG).d("getMovieDetailWithId() called with response = $response")
             response.onSuccess {
                 _movieDetails.value = data
             }
 
             response.onError {
-                Log.d("TAG", "getMovieDetailWithId: Err "+message())
+                _error.value =
+                    "${this.message()} [ Code : ${this.statusCode.code}], check your internet connection and retry"
             }
 
             response.onException {
-                Log.d("TAG", "getMovieDetailWithId: Ex "+message())
+                _error.value = "Something wrong with : ${this.message()}"
             }
         }
     }

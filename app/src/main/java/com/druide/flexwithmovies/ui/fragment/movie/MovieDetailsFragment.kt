@@ -1,36 +1,31 @@
 package com.druide.flexwithmovies.ui.fragment.movie
 
-import androidx.lifecycle.ViewModelProvider
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.Fragment
 import coil.load
 import coil.size.Precision
-import coil.transform.CircleCropTransformation
-import coil.transform.RoundedCornersTransformation
 import com.druide.flexwithmovies.R
 import com.druide.flexwithmovies.databinding.FragmentMovieDetailsBinding
-import com.druide.flexwithmovies.databinding.FragmentMoviesBinding
 import com.druide.flexwithmovies.model.Movie
 import com.druide.flexwithmovies.utils.TAG
 import com.druide.flexwithmovies.utils.formattedBackDropPath
 import com.druide.flexwithmovies.utils.formattedPosterPath
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class MovieDetailsFragment : Fragment() {
     private var _biding: FragmentMovieDetailsBinding? = null
     private val binding get() = _biding
     private val viewModelDetails: MovieDetailsViewModel by sharedViewModel()
-    companion object {
-        fun newInstance() = MovieDetailsFragment()
-    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,9 +40,16 @@ class MovieDetailsFragment : Fragment() {
     }
 
 
-    private fun populateUI(movie : Movie) {
+    /**
+     * Populate UI
+     * update and populate views according to the selected movie
+     * @param movie
+     */
+    @SuppressLint("SetTextI18n")
+    private fun populateUI(movie: Movie) {
+        Timber.tag(TAG).d("populateUI() called with: movie = $movie")
         binding?.apply {
-            imageViewBackdrop.load(movie.backdropPath?.formattedBackDropPath())  {
+            imageViewBackdrop.load(movie.backdropPath?.formattedBackDropPath()) {
                 size(500)
                 precision(Precision.EXACT)
                 placeholder(R.drawable.ic_the_movie_database)
@@ -62,19 +64,60 @@ class MovieDetailsFragment : Fragment() {
                 build()
             }
             tvMovieTitle.text = movie.title
-            tvMovieReleaseDateAndType.text = "${movie.releaseDate.take(4)} - ${movie.genres.joinToString { it.name }}"
+            tvMovieReleaseDateAndType.text =
+                "${movie.releaseDate.take(4)} - ${movie.genres.joinToString { it.name }}"
             tvMovieNote.text = "Note : ${movie.voteAverage}"
             tvMovieOverview.text = movie.overview
         }
     }
 
 
+    /**
+     * Subscribe observer and update view data according to the movie selected
+     *
+     */
     private fun subscribeObserver() {
-        viewModelDetails.movieDetails.observe(viewLifecycleOwner) {
-            Log.d(TAG, "bbbb() called"+it)
-            if (it != null) {
-                populateUI(it)
+        with(viewModelDetails) {
+            movieDetails.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    populateUI(it)
+                    onSuccess()
+                } else {
+                    onError("Something wrong !!")
+                }
             }
+
+            error.observe(viewLifecycleOwner) {
+                onError(it)
+            }
+        }
+    }
+
+
+    /**
+     * On success
+     * update views visibility on success call
+     */
+    private fun onSuccess() {
+        binding?.apply {
+            tvMovieDetailsError.visibility = GONE
+            containerMovieDetails.visibility = VISIBLE
+        }
+    }
+
+    /**
+     * On error
+     * update views visibility on error call
+     * @param message
+     */
+    private fun onError(message: String) {
+        Timber.tag(TAG).d("onError() called with: message = $message")
+        binding?.apply {
+            tvMovieDetailsError.apply {
+                visibility = VISIBLE
+                text = message
+            }
+            containerMovieDetails.visibility = GONE
         }
     }
 

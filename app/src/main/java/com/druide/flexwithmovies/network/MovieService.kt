@@ -12,9 +12,9 @@ interface MovieService {
 
     @Headers("Accept: application/json")
     @GET("discover/movie")
-    suspend fun getMovies(@Query("page")page : Int) : ApiResponse<Movies>
+    suspend fun getMovies(@Query("page") page: Int): ApiResponse<Movies>
 
     @Headers("Accept: application/json")
     @GET("movie/{idMovie}")
-    suspend fun getMovieById(@Path("idMovie") idMovie: Int) : ApiResponse<Movie>
+    suspend fun getMovieById(@Path("idMovie") idMovie: Int): ApiResponse<Movie>
 }

@@ -20,6 +20,6 @@
         android:id="@+id/moviesDetailsFragment"
         android:name="com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsFragment"
         android:label="Movies Details Fragment"
-        tools:layout="@layout/fragment_movie_details"/>
+        tools:layout="@layout/fragment_movie_details" />
 
 </navigation>

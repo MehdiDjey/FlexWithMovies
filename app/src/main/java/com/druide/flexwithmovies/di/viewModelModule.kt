@@ -6,7 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 /**
- * Provde Movies view model module
+ * Provide Movies view model module
  */
 val moviesViewModelModule = module { viewModel { MoviesViewModel(get()) } }
 

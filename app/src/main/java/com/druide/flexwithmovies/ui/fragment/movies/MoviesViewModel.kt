@@ -14,6 +14,7 @@ import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MoviesViewModel(private val moviesRepository: MoviesRepository) : ViewModel(), IOnMovies {
     private var _movies: MutableLiveData<Movies?> = MutableLiveData()
@@ -28,22 +29,27 @@ class MoviesViewModel(private val moviesRepository: MoviesRepository) : ViewMode
     private var currentPage = -1
 
 
+    /**
+     * Get movie according to the selected page
+     *
+     * @param pageIndex Int by default the value should be 1
+     */
     override fun getMovieAtPage(pageIndex: Int) {
-        Log.d(TAG, "getMovieAtPage() called with: pageIndex = $pageIndex")
+        Timber.tag(TAG).d("getMovieAtPage() called with: pageIndex = $pageIndex")
         currentPage = pageIndex
         viewModelScope.launch {
             val response = moviesRepository.getMovies(pageIndex)
+            Timber.tag(TAG).d("getMovieAtPage() called with response = $response")
             response.onSuccess {
                 _movies.value = data
                 _canLoadMore.value = currentPage < data.totalPages
-
-                Log.d(TAG, "getMovieAtPage() called with: can load more = $_canLoadMore")
             }
 
             response.onError {
                 _error.value =
                     "${this.message()} [ Code : ${this.statusCode.code}], check your internet connection and retry"
             }
+
             response.onException {
                 _error.value = "Something wrong with : ${this.message()}"
             }

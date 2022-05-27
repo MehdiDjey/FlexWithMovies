@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Theme.AppSplash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black_800</item>
@@ -7,7 +7,7 @@
         <item name="windowSplashScreenAnimationDuration">3000</item>
         <item name="postSplashScreenTheme">@style/Theme.FlexWithMovies</item>
 
-        <item name="android:statusBarColor" >@color/black_800</item>
+        <item name="android:statusBarColor">@color/black_800</item>
         <item name="android:navigationBarColor">@color/black_800</item>
         <item name="android:windowLightStatusBar">true</item>
 

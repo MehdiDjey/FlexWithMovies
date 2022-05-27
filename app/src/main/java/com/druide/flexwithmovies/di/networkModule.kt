@@ -23,7 +23,7 @@ private const val WRITE_TIMEOUT = 15L
 private const val READ_TIMEOUT = 15L
 
 private const val BASE_URL = "https://api.themoviedb.org/3/"
-private const val API_KEY ="api_key"
+private const val API_KEY = "api_key"
 
 val networkModule = module {
     single { Cache(androidApplication().cacheDir, 10L * 1024 * 1024) }
@@ -62,7 +62,7 @@ private fun Scope.retrofitHttpClient(): OkHttpClient {
                 val newUrl = oldReq.url.newBuilder()
                     .addQueryParameter(API_KEY, Keys.apiKey())
                     .build()
-                val  newReq = oldReq.newBuilder().url(newUrl).build()
+                val newReq = oldReq.newBuilder().url(newUrl).build()
                 it.proceed(newReq)
             }
         addInterceptor(HttpLoggingInterceptor().apply {
