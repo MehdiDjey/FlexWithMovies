@@ -1,4 +1,4 @@
-package com.druide.flexwithmovies.movies
+package com.druide.flexwithmovies.ui.fragment.movies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.druide.flexwithmovies.`interface`.IOnMovies
 import com.druide.flexwithmovies.model.Movies
+import com.druide.flexwithmovies.model.Results
 import com.druide.flexwithmovies.repository.MoviesRepository
 import com.druide.flexwithmovies.utils.TAG
 import com.skydoves.sandwich.message
@@ -28,6 +29,8 @@ class MoviesViewModel(private val moviesRepository: MoviesRepository) : ViewMode
 
     private var currentPage = -1
 
+    var fetchedList = listOf<Results>()
+
 
     /**
      * Get movie according to the selected page
@@ -41,10 +44,12 @@ class MoviesViewModel(private val moviesRepository: MoviesRepository) : ViewMode
             val response = moviesRepository.getMovies(pageIndex)
             Timber.tag(TAG).d("getMovieAtPage() called with response = $response")
             response.onSuccess {
-                _movies.value = data
-                _canLoadMore.value = currentPage < data.totalPages
+              if  ( this.statusCode.code == 200 && this.response.isSuccessful) {
+                  //fetchedList.addAll(data.results)
+                  _movies.value = data
+                  _canLoadMore.value = currentPage < data.totalPages
+              }
             }
-
             response.onError {
                 _error.value =
                     "${this.message()} [ Code : ${this.statusCode.code}], check your internet connection and retry"

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_movie_details_overview">Overview</string>
+    <string name="filter_most_popular">Popular</string>
+    <string name="filter_release_date">Release date</string>
+    <string name="filter_average_note">Note</string>
 </resources>

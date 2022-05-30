@@ -1,4 +1,4 @@
-package com.druide.flexwithmovies.movies
+package com.druide.flexwithmovies.ui.fragment.movies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,9 +6,9 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +18,8 @@ import com.druide.flexwithmovies.model.Results
 import com.druide.flexwithmovies.ui.adapter.movies.MoviesAdapter
 import com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsViewModel
 import com.druide.flexwithmovies.utils.TAG
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 
@@ -32,7 +34,7 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
     private val viewModel: MoviesViewModel by sharedViewModel()
     private val viewModelDetails: MovieDetailsViewModel by sharedViewModel()
     private lateinit var moviesAdapter: MoviesAdapter
-    private var page = 1
+    private var pageIndex= 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +48,6 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
         subscribeObserver()
-
     }
 
     /**
@@ -65,6 +66,13 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // restore stored list on change fragment
+        if (viewModel.fetchedList.isNotEmpty())
+            moviesAdapter.movies = viewModel.fetchedList
+    }
+
     /**
      * Subscribe observer
      *
@@ -74,11 +82,11 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
     private fun subscribeObserver() {
         with(viewModel) {
             movies.observe(viewLifecycleOwner) {
-                if (it?.results?.isEmpty() == true) {
+                if (it?.results == null || it.results.isEmpty()) {
                     onError("Nothing to show here !!")
                 } else {
-                    onSuccess()
-                    moviesAdapter.movies = it!!.results
+                    populateList(it.results)
+
                 }
             }
 
@@ -87,13 +95,36 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
             }
 
             canLoadMore.observe(viewLifecycleOwner) {
+                //this@MoviesFragment.canLoadMore = it
+
                 if (it) {
-                    page += 1
-                    // getMovieAtPage(page)
+                    lifecycleScope.launch {
+                        delay(1000)
+                        pageIndex += 1
+                        viewModel.getMovieAtPage(pageIndex)
+                    }
+
                 }
+
             }
         }
     }
+
+
+    private fun populateList(results: List<Results>) {
+        val currentList = moviesAdapter.movies
+        if (currentList.isEmpty()) {
+            // init list
+            moviesAdapter.movies = results
+            onSuccess()
+        } else {
+            // on load more item
+            val newList = currentList as MutableList
+            newList.addAll(results)
+            moviesAdapter.movies = newList
+        }
+    }
+
 
     /**
      * On error
@@ -149,8 +180,13 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
      */
     override fun onMovieSelected(movie: Results) {
         Timber.tag(TAG).d("onMovieSelected() called with: movie = $movie")
-        Toast.makeText(requireContext(), movie.title + " ${movie.id}", Toast.LENGTH_SHORT).show()
+        //store current list before navigate to prevent from lost data
+        viewModel.fetchedList = moviesAdapter.movies
+
+        //call the selected movie by id
         viewModelDetails.getMovieDetailWithId(movie.id)
+
+        // navigate to the details fragment
         Navigation.findNavController(requireView())
             .navigate(R.id.action_moviesFragment_to_moviesDetailsFragment)
     }
@@ -195,5 +231,13 @@ class MoviesFragment : Fragment(), MoviesAdapter.Interaction, SearchView.OnQuery
         Timber.tag(TAG).d("updateListOnQuery() called with: query = $query")
         // TODO: update movies list
 
+    }
+
+    /**
+     * Filter listener
+     *
+     */
+    private fun filterListener() {
+        // TODO: update list by filter
     }
 }

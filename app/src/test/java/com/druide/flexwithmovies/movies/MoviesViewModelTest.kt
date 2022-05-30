@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.druide.flexwithmovies.model.Movies
 import com.druide.flexwithmovies.network.MovieService
 import com.druide.flexwithmovies.repository.MoviesRepository
+import com.druide.flexwithmovies.ui.fragment.movies.MoviesViewModel
 import com.druide.flexwithmovies.utils.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skydoves.sandwich.ApiResponse

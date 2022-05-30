@@ -1,13 +1,10 @@
 package com.druide.flexwithmovies.movieDetails
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.druide.flexwithmovies.model.Movie
 import com.druide.flexwithmovies.model.Movies
-import com.druide.flexwithmovies.movies.MoviesViewModel
 import com.druide.flexwithmovies.network.MovieService
 import com.druide.flexwithmovies.repository.MovieRepository
-import com.druide.flexwithmovies.repository.MoviesRepository
 import com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsViewModel
 import com.druide.flexwithmovies.utils.*
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
