@@ -1,6 +1,5 @@
-package com.druide.flexwithmovies.ui.fragment.movies
+package com.druide.flexwithmovies.movies
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +16,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MoviesViewModel(private val moviesRepository: MoviesRepository) : ViewModel(), IOnMovies {
+
     private var _movies: MutableLiveData<Movies?> = MutableLiveData()
     val movies: LiveData<Movies?> = _movies
 

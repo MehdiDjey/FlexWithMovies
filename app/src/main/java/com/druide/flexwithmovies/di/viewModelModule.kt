@@ -1,7 +1,7 @@
 package com.druide.flexwithmovies.di
 
 import com.druide.flexwithmovies.ui.fragment.movie.MovieDetailsViewModel
-import com.druide.flexwithmovies.ui.fragment.movies.MoviesViewModel
+import com.druide.flexwithmovies.movies.MoviesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
